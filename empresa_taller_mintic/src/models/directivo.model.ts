@@ -1,10 +1,9 @@
 import {Entity, model, property, belongsTo} from '@loopback/repository';
-import { Persona } from './persona.model';
-import {Empleado} from './empleado.model';
 import {Empresa} from './empresa.model';
+import {Empleado} from './empleado.model';
 
 @model()
-export class Directivo extends Persona {
+export class Directivo extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -18,11 +17,11 @@ export class Directivo extends Persona {
   })
   categoria: string;
 
-  @belongsTo(() => Empleado)
-  empleadoId: string;
-
   @belongsTo(() => Empresa)
   empresaId: string;
+
+  @belongsTo(() => Empleado)
+  empleadoId: string;
 
   constructor(data?: Partial<Directivo>) {
     super(data);

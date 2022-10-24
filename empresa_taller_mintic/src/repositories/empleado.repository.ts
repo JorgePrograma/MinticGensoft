@@ -21,6 +21,7 @@ export class EmpleadoRepository extends DefaultCrudRepository<
     super(Empleado, dataSource);
     this.directivo = this.createHasOneRepositoryFactoryFor('directivo', directivoRepositoryGetter);
     this.registerInclusionResolver('directivo', this.directivo.inclusionResolver);
+    this.empresa = this.createBelongsToAccessorFor('empresa', empresaRepositoryGetter,);
     this.registerInclusionResolver('empresa', this.empresa.inclusionResolver);
   }
 }

@@ -1,9 +1,10 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
-import { CategoriaMarca } from './categoria-marca.model';
+import {Entity, model, property, belongsTo, hasOne} from '@loopback/repository';
 import {Cliente} from './cliente.model';
+import {CategoriaMarca} from './categoria-marca.model';
+import {Servicio} from './servicio.model';
 
-@model({settings: {strict: false}})
-export class Vehiculo extends CategoriaMarca {
+@model()
+export class Vehiculo extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -51,11 +52,9 @@ export class Vehiculo extends CategoriaMarca {
     type: 'string',
   })
   servicioId?: string;
-  // Define well-known properties here
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
+  @hasOne(() => Servicio)
+  servicio: Servicio;
 
   constructor(data?: Partial<Vehiculo>) {
     super(data);

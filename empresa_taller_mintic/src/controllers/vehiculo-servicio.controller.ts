@@ -16,64 +16,64 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Empresa,
+  Vehiculo,
   Servicio,
 } from '../models';
-import {EmpresaRepository} from '../repositories';
+import {VehiculoRepository} from '../repositories';
 
-export class EmpresaServicioController {
+export class VehiculoServicioController {
   constructor(
-    @repository(EmpresaRepository) protected empresaRepository: EmpresaRepository,
+    @repository(VehiculoRepository) protected vehiculoRepository: VehiculoRepository,
   ) { }
 
-  @get('/empresas/{id}/servicios', {
+  @get('/vehiculos/{id}/servicio', {
     responses: {
       '200': {
-        description: 'Array of Empresa has many Servicio',
+        description: 'Vehiculo has one Servicio',
         content: {
           'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Servicio)},
+            schema: getModelSchemaRef(Servicio),
           },
         },
       },
     },
   })
-  async find(
+  async get(
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Servicio>,
-  ): Promise<Servicio[]> {
-    return this.empresaRepository.servicios(id).find(filter);
+  ): Promise<Servicio> {
+    return this.vehiculoRepository.servicio(id).get(filter);
   }
 
-  @post('/empresas/{id}/servicios', {
+  @post('/vehiculos/{id}/servicio', {
     responses: {
       '200': {
-        description: 'Empresa model instance',
+        description: 'Vehiculo model instance',
         content: {'application/json': {schema: getModelSchemaRef(Servicio)}},
       },
     },
   })
   async create(
-    @param.path.string('id') id: typeof Empresa.prototype.id,
+    @param.path.string('id') id: typeof Vehiculo.prototype.id,
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(Servicio, {
-            title: 'NewServicioInEmpresa',
+            title: 'NewServicioInVehiculo',
             exclude: ['id'],
-            optional: ['empresaId']
+            optional: ['vehiculoId']
           }),
         },
       },
     }) servicio: Omit<Servicio, 'id'>,
   ): Promise<Servicio> {
-    return this.empresaRepository.servicios(id).create(servicio);
+    return this.vehiculoRepository.servicio(id).create(servicio);
   }
 
-  @patch('/empresas/{id}/servicios', {
+  @patch('/vehiculos/{id}/servicio', {
     responses: {
       '200': {
-        description: 'Empresa.Servicio PATCH success count',
+        description: 'Vehiculo.Servicio PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -90,13 +90,13 @@ export class EmpresaServicioController {
     servicio: Partial<Servicio>,
     @param.query.object('where', getWhereSchemaFor(Servicio)) where?: Where<Servicio>,
   ): Promise<Count> {
-    return this.empresaRepository.servicios(id).patch(servicio, where);
+    return this.vehiculoRepository.servicio(id).patch(servicio, where);
   }
 
-  @del('/empresas/{id}/servicios', {
+  @del('/vehiculos/{id}/servicio', {
     responses: {
       '200': {
-        description: 'Empresa.Servicio DELETE success count',
+        description: 'Vehiculo.Servicio DELETE success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -105,6 +105,6 @@ export class EmpresaServicioController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(Servicio)) where?: Where<Servicio>,
   ): Promise<Count> {
-    return this.empresaRepository.servicios(id).delete(where);
+    return this.vehiculoRepository.servicio(id).delete(where);
   }
 }

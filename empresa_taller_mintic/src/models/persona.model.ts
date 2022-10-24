@@ -13,25 +13,19 @@ export class Persona extends Entity {
     type: 'string',
     required: true,
   })
-  nombres: string;
+  nombre: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  apellidos: string;
+  apellido: string;
 
   @property({
     type: 'string',
     required: true,
   })
   cedula: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  ceular: string;
 
   @property({
     type: 'string',
@@ -52,10 +46,10 @@ export class Persona extends Entity {
   direccion: string;
 
   @property({
-    type: 'string',
-    default: 0,
+    type: 'number',
+    required: true,
   })
-  edad?: string;
+  edad: number;
 
   @property({
     type: 'string',

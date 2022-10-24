@@ -1,5 +1,6 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Empleado} from './empleado.model';
+import {Cliente} from './cliente.model';
 import {Directivo} from './directivo.model';
 import {Servicio} from './servicio.model';
 
@@ -7,16 +8,16 @@ import {Servicio} from './servicio.model';
 export class Empresa extends Entity {
   @property({
     type: 'string',
-    required: true,
-  })
-  nombre: string;
-
-  @property({
-    type: 'string',
     id: true,
     generated: true,
   })
   id?: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  nombre: string;
 
   @property({
     type: 'string',
@@ -29,6 +30,12 @@ export class Empresa extends Entity {
     required: true,
   })
   cif: string;
+
+  @hasMany(() => Empleado)
+  empleados: Empleado[];
+
+  @hasMany(() => Cliente)
+  clientes: Cliente[];
 
   @hasMany(() => Directivo)
   directivos: Directivo[];

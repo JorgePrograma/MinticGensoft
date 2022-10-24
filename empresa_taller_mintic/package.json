@@ -1,7 +1,7 @@
 {
   "name": "empresa_taller_mintic",
   "version": "0.0.1",
-  "description": "proyecto de aula que permitira dar solucion a la problematica de la empresa mantenimiento tic   haciendo  una pagina web  usando angular en el  frontend y loopback en el backend",
+  "description": "Desarrollo web con loopback en el backend y angular en el fronted",
   "keywords": [
     "loopback-application",
     "loopback"

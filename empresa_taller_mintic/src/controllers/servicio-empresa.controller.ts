@@ -7,21 +7,21 @@ import {
   getModelSchemaRef,
 } from '@loopback/rest';
 import {
-  Cliente,
+  Servicio,
   Empresa,
 } from '../models';
-import {ClienteRepository} from '../repositories';
+import {ServicioRepository} from '../repositories';
 
-export class ClienteEmpresaController {
+export class ServicioEmpresaController {
   constructor(
-    @repository(ClienteRepository)
-    public clienteRepository: ClienteRepository,
+    @repository(ServicioRepository)
+    public servicioRepository: ServicioRepository,
   ) { }
 
-  @get('/clientes/{id}/empresa', {
+  @get('/servicios/{id}/empresa', {
     responses: {
       '200': {
-        description: 'Empresa belonging to Cliente',
+        description: 'Empresa belonging to Servicio',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(Empresa)},
@@ -31,8 +31,8 @@ export class ClienteEmpresaController {
     },
   })
   async getEmpresa(
-    @param.path.string('id') id: typeof Cliente.prototype.id,
+    @param.path.string('id') id: typeof Servicio.prototype.id,
   ): Promise<Empresa> {
-    return this.clienteRepository.empresa(id);
+    return this.servicioRepository.empresa(id);
   }
 }
