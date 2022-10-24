@@ -1,5 +1,7 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Empleado} from './empleado.model';
+import {Directivo} from './directivo.model';
+import {Servicio} from './servicio.model';
 
 @model()
 export class Empresa extends Entity {
@@ -27,6 +29,12 @@ export class Empresa extends Entity {
     required: true,
   })
   cif: string;
+
+  @hasMany(() => Directivo)
+  directivos: Directivo[];
+
+  @hasMany(() => Servicio)
+  servicios: Servicio[];
 
   constructor(data?: Partial<Empresa>) {
     super(data);
