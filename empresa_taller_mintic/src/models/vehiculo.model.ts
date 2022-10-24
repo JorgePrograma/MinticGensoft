@@ -1,7 +1,8 @@
 import {Entity, model, property} from '@loopback/repository';
+import { CategoriaMarca } from './categoria-marca.model';
 
 @model({settings: {strict: false}})
-export class Vehiculo extends Entity {
+export class Vehiculo extends CategoriaMarca {
   @property({
     type: 'string',
     id: true,
