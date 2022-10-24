@@ -1,9 +1,10 @@
 import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
 import {Empresa} from './empresa.model';
+import { Persona } from './persona.model';
 import {Vehiculo} from './vehiculo.model';
 
 @model()
-export class Cliente extends Entity {
+export class Cliente extends Persona {
   @property({
     type: 'string',
     id: true,
