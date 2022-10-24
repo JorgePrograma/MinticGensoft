@@ -60,8 +60,7 @@ export class EmpresaEmpleadoController {
         'application/json': {
           schema: getModelSchemaRef(Empleado, {
             title: 'NewEmpleadoInEmpresa',
-            exclude: ['id'],
-            optional: ['empresaId']
+            exclude: ['id']
           }),
         },
       },

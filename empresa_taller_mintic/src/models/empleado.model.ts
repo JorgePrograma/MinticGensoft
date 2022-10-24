@@ -1,5 +1,4 @@
 import {Entity, model, property, belongsTo, hasOne} from '@loopback/repository';
-import {Empresa} from './empresa.model';
 import { Persona } from './persona.model';
 import {Directivo} from './directivo.model';
 

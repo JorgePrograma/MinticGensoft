@@ -18,3 +18,5 @@ export * from './empleado.controller';
 export * from './empresa.controller';
 export * from './servicio.controller';
 export * from './vehiculo.controller';
+export * from './categoria-marca-vehiculo.controller';
+export * from './categoria-marca.controller';

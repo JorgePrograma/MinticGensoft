@@ -1,4 +1,4 @@
-import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Entity, model, property, hasMany, belongsTo} from '@loopback/repository';
 import {Vehiculo} from './vehiculo.model';
 
 @model({settings: {strict: false}})
@@ -18,6 +18,9 @@ export class CategoriaMarca extends Entity {
 
   @hasMany(() => Vehiculo)
   vehiculos: Vehiculo[];
+
+  @belongsTo(() => Vehiculo)
+  vehiculoId: string;
   // Define well-known properties here
 
   // Indexer property to allow additional data
