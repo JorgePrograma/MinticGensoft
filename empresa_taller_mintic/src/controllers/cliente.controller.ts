@@ -4,18 +4,12 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Cliente} from '../models';
 import {ClienteRepository} from '../repositories';
@@ -44,7 +38,10 @@ export class ClienteController {
     })
     cliente: Omit<Cliente, 'id'>,
   ): Promise<Cliente> {
-    return this.clienteRepository.create(cliente);
+
+    let p = await this.clienteRepository.create(cliente);
+    this.enviarSMS();
+    return p
   }
 
   @get('/clientes/count')
@@ -146,5 +143,25 @@ export class ClienteController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.clienteRepository.deleteById(id);
+  }
+
+  enviarSMS(){
+    const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const msg = {
+  to: 'gensofmintic2022@gmail.com', // Change to your recipient
+  from: 'gensofmintic2022@gmail.com', // Change to your verified sender
+  subject: 'Gensoft Login',
+  text: 'Correo de confirmación',
+  html: '<strong>Gensoft MinTic</strong>',
+}
+sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error: any) => {
+    console.error(error)
+  })
   }
 }
