@@ -25,6 +25,11 @@ export class AutenticacionService {
     return clavecifrada;
   }
 
+  getDecifrarClave(clave: string) {
+    let claveDecifrada = cryto.AES(clave).toString;
+    return claveDecifrada;
+  }
+
   IdentificarPersona(usuario: string, clave: string) {
     try {
       // variable = repositorio.busqueda({filtro})

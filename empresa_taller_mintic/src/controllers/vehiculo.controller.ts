@@ -1,4 +1,4 @@
-import { authenticate } from '@loopback/authentication';
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -21,16 +21,13 @@ import {
 import {Vehiculo} from '../models';
 import {VehiculoRepository} from '../repositories';
 
-  // para dar una autorizacion de acceder a toda la clase
-  @authenticate("admin")
+@authenticate('admin')
 export class VehiculoController {
   constructor(
     @repository(VehiculoRepository)
-    public vehiculoRepository : VehiculoRepository,
+    public vehiculoRepository: VehiculoRepository,
   ) {}
 
-  // para dar una autorizacion en un metodo
-  @authenticate("admin")
   @post('/vehiculos')
   @response(200, {
     description: 'Vehiculo model instance',
@@ -52,17 +49,12 @@ export class VehiculoController {
     return this.vehiculoRepository.create(vehiculo);
   }
 
-
-  // quitar autorizacion => este salta es paso 
-  @authenticate.skip()
   @get('/vehiculos/count')
   @response(200, {
     description: 'Vehiculo model count',
     content: {'application/json': {schema: CountSchema}},
   })
-  async count(
-    @param.where(Vehiculo) where?: Where<Vehiculo>,
-  ): Promise<Count> {
+  async count(@param.where(Vehiculo) where?: Where<Vehiculo>): Promise<Count> {
     return this.vehiculoRepository.count(where);
   }
 
@@ -114,7 +106,8 @@ export class VehiculoController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Vehiculo, {exclude: 'where'}) filter?: FilterExcludingWhere<Vehiculo>
+    @param.filter(Vehiculo, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Vehiculo>,
   ): Promise<Vehiculo> {
     return this.vehiculoRepository.findById(id, filter);
   }

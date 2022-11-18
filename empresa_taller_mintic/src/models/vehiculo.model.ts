@@ -42,16 +42,20 @@ export class Vehiculo extends Entity {
   })
   placa: string;
 
+  @property({
+    type: 'string',
+  })
+  servicioId?: string;
+  
+
+
   @belongsTo(() => Cliente)
   clienteId: string;
 
   @belongsTo(() => CategoriaMarca)
   categoriaMarcaId: string;
 
-  @property({
-    type: 'string',
-  })
-  servicioId?: string;
+  
 
   @hasOne(() => Servicio)
   servicio: Servicio;

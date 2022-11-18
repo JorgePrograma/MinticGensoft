@@ -47,15 +47,15 @@ export class Persona extends Entity {
 
   @property({
     type: 'number',
-    required: true,
+    required: false,
   })
-  edad: number;
+  edad?: number;
 
   @property({
     type: 'string',
-    required: true,
+    required: false,
   })
-  fecha_nacimiento: string;
+  fecha_nacimiento?: string;
 
   @property({
     type: 'string',

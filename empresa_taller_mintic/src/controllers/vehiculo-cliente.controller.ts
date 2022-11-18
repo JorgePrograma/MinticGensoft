@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   repository,
 } from '@loopback/repository';
@@ -12,6 +13,7 @@ import {
 } from '../models';
 import {VehiculoRepository} from '../repositories';
 
+@authenticate("admin")
 export class VehiculoClienteController {
   constructor(
     @repository(VehiculoRepository)

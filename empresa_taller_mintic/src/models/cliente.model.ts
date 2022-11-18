@@ -5,13 +5,13 @@ import {Vehiculo} from './vehiculo.model';
 
 @model()
 export class Cliente extends Persona {
-  @property({
+/*  @property({
     type: 'string',
     id: true,
     generated: true,
   })
   id?: string;
-
+*/
   @belongsTo(() => Empresa)
   empresaId: string;
 

@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -21,6 +22,7 @@ import {
 } from '../models';
 import {ServicioRepository} from '../repositories';
 
+@authenticate("admin")
 export class ServicioVehiculoController {
   constructor(
     @repository(ServicioRepository) protected servicioRepository: ServicioRepository,

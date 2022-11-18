@@ -1,3 +1,4 @@
+import { authenticate } from '@loopback/authentication';
 import {service} from '@loopback/core';
 import {
   Count,
@@ -23,10 +24,17 @@ import {Cliente, Credenciales} from '../models';
 import {ClienteRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 
+/*
+  source ./sendgrid.env
+*/
+
 // add sendgrid
 const enviosSendgrid = require('@sendgrid/mail');
-enviosSendgrid.setApiKey(process.env.SENDGRID_API_KEY)
+let SENDGRID_API_KEY =
+  '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';
+enviosSendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
+@authenticate('admin')
 export class ClienteController {
   constructor(
     @repository(ClienteRepository)
@@ -34,33 +42,36 @@ export class ClienteController {
     @service(AutenticacionService)
     public servicioAutenticacion: AutenticacionService,
   ) {}
-
-  @post("/identificarCliente",{
-    responses:{
-      '200':{
-        description:"Identificacion de usuarios"
-      }
-    }
+  @authenticate.skip()
+  @post('/identificarCliente', {
+    responses: {
+      '200': {
+        description: 'Identificacion de usuarios',
+      },
+    },
   })
   // no se puede llamar igual es opcional
-  async identificarCliente(
-    @requestBody() credenciales:Credenciales
-  ){
-    let clientepersona = await this.servicioAutenticacion.IdentificarPersona(credenciales.usuario, credenciales.clave);
-    if(clientepersona){
+  async identificarCliente(@requestBody() credenciales: Credenciales) {
+    let clientepersona = await this.servicioAutenticacion.IdentificarPersona(
+      credenciales.usuario,
+      credenciales.clave,
+    );
+    if (clientepersona) {
       let token = this.servicioAutenticacion.getGenerarTokenJWT(clientepersona);
       return {
-        datos:{
-          nombre:clientepersona.nombre,
-          correo:clientepersona.correo,
-          id:clientepersona.id
+        datos: {
+          nombre: clientepersona.nombre,
+          correo: clientepersona.correo,
+          id: clientepersona.id,
         },
-        tk:token  
-      }
-    }else{
-      throw new HttpErrors[401]("Datos invalidos");
+        tk: token,
+      };
+    } else {
+      throw new HttpErrors[401]('Datos invalidos');
     }
   }
+  
+  @authenticate.skip()
   @post('/clientes')
   @response(200, {
     description: 'Cliente model instance',
@@ -82,7 +93,7 @@ export class ClienteController {
     let clave = this.servicioAutenticacion.getGenerarClave();
     let claveCifrada = this.servicioAutenticacion.getCifrarClave(clave);
     cliente.clave = claveCifrada;
-    
+
     // notificar en gmail con sendgrid
     let destino = cliente.correo;
     let asunto = 'Mantenimientos Gensoft';
@@ -90,7 +101,7 @@ export class ClienteController {
     Apreciado (a) Cliente, Atentamente nos permitimos comunicarle que sus datos para el ingreso al Sistema de Información ${asunto} son:
 
     Nombre de usuario: ${cliente.correo}
-    Contraseña: ${clave}</strong>`;
+    Contraseña: ${clave} </strong>`;
 
     const mensaje = {
       to: destino, // Change to your recipient
@@ -101,11 +112,11 @@ export class ClienteController {
     };
     enviosSendgrid.send(mensaje).then(() => {
       console.log('Email enviado');
+      console.log(cliente);
     });
 
     let personaCliente = await this.clienteRepository.create(cliente);
     return personaCliente;
-    
   }
 
   @get('/clientes/count')
